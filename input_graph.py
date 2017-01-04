@@ -1,6 +1,34 @@
-row=int(input('row:'))
-col=int(input('col:'))
-type=int(input('type:'))
+import random
+type=random.randint(1,2)
+row=random.randrange(4,50,2)
+col=random.randrange(3,50,2)
+end=int((row+col)/2)
+carnum=random.randint(1,end)
+startpoint=[[0 for i in range(2)] for j in range(carnum)]
+endpoint=[[0 for i in range(2) ]for j in range(carnum)]
+for i in range(carnum):
+	startpoint[i][1]=random.randrange(0,col-1,2)
+	if startpoint[i][1]%4==2:
+		startpoint[i][0]=random.choice((0,row-1))
+	else:
+		startpoint[i][0]=0
+	if startpoint[i][1]==col-1:
+		startpoint[i][0]=row-1
+	if startpoint[i][1]==2:
+		startpoint[i][0]=0
+	if startpoint[i][0]==0:
+		endpoint[i][0]=row-1
+		endpoint[i][1]=random.randrange(0,col,2)
+		while endpoint[i][1]%4!=2 or endpoint[i][1]==col-1:
+			endpoint[i][1]=random.randrange(0,col,2)
+	else:
+		endpoint[i][0]=0
+		endpoint[i][1]=random.randrange(0,col,2)
+		while endpoint[i][1]==0:
+			endpoint[i][1]=random.randrange(0,col,2)
+print('type:%d;row:%d;col:%d;carnum:%d' %(type,row,col,carnum))
+for i in range(carnum):
+	print('(%d,%d)->(%d,%d)'%(startpoint[i][0],startpoint[i][1],endpoint[i][0],endpoint[i][1]))
 out=[[0 for cols in range(col)]for rows in range(row)]
 def graph1(row,col):  #small crossing
 	for rows in range(row):
