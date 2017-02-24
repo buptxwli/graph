@@ -160,7 +160,7 @@ void find_shortest(int i)
     {
         tmp=que.top();
         que.pop();
-        printf("pop:(%d,%d),d=%d,t=%d\n", tmp.name/line, tmp.name%line, tmp.tmpdis, tmp.turn);
+        //printf("pop:(%d,%d),d=%d,t=%d\n", tmp.name/line, tmp.name%line, tmp.tmpdis, tmp.turn);
         int u=tmp.name;
         if(graph_mark[u]) continue;
         graph_mark[u]=true;
@@ -179,8 +179,8 @@ void find_shortest(int i)
 	        	if (now_x-last_x!=next_x-now_x || now_y-last_y!=next_y-now_y)
 	        		next_turn++;
 			int c=edge[u][j].cost;
-            
-            if((!graph_mark[next_name]&&graph_dis[next_name]>graph_dis[u]+c) || 
+
+            if((!graph_mark[next_name]&&graph_dis[next_name]>graph_dis[u]+c) ||
 			(graph_dis[next_name]==graph_dis[u]+c && graph_turn[next_name]>next_turn))
             {
                 graph_dis[next_name]=graph_dis[u]+c;
@@ -229,7 +229,24 @@ void debug_graph(int x)
     printf("(%d,%d)\n",shortest_path[x][step_total[x]-1].x,shortest_path[x][step_total[x]-1].y);
     return;
 }
-
+void debug(int x)
+{
+    char tmp[maxrow][maxline];
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<line;j++)
+            tmp[i][j]=in[i][j];
+    }
+    for(int i=0;i<=step_total[x]-1;i++)
+        tmp[shortest_path[x][i].x][shortest_path[x][i].y]='0'+x;
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<line;j++)
+            printf("%c",tmp[i][j]);
+        printf("\n");
+    }
+    return ;
+}
 int main()
 {
     freopen("input.txt","r",stdin);
@@ -245,6 +262,7 @@ int main()
             printf("car[%d]\n",i);
             find_shortest(i);
             debug_graph(i);
+            debug(i);
         }
     }
     return 0;
